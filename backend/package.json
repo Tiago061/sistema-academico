@@ -7,7 +7,7 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "prisma:generate": "npx prisma generate",
-    "prisma:migrate": "nnpx prisma migrate dev --name init",
+    "prisma:migrate": "npx prisma migrate dev --name init",
     "seed": "ts-node src/database/seed.ts"
   },
   "author": "",
