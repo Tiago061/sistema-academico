@@ -1,6 +1,7 @@
 import { registry } from "zod";
 import { prisma } from "../database/prisma";
 import { CreateInscricaoDTO, UpdateInscricaoDTO } from "../schemas/inscricao.schema";
+import { ConflictError, NotFoundError } from "../config/errors";
 
 export class InscricaoService {
 
@@ -30,13 +31,13 @@ export class InscricaoService {
     async getInscricaoById(id: number){
         const inscricao = await prisma.inscricao.findUnique({ where: { id }});
         if(!inscricao){
-            throw new Error(`Inscrição com ID ${id} não encontrada.`);
+            throw new NotFoundError(`Inscrição com ID ${id} não encontrada.`);
         }
         return inscricao;
     }
     
 
-    async criarInscricao({pessoaId, cursoId}: CreateInscricaoDTO){
+    async createInscricao({pessoaId, cursoId}: CreateInscricaoDTO){
 
         const pessoa = await prisma.pessoa.findUnique({
             where: { id: pessoaId }
@@ -46,10 +47,10 @@ export class InscricaoService {
         }); 
 
         if(!pessoa){
-            throw new Error('Pessoa não encontrada.');
+            throw new ConflictError('Pessoa não encontrada.');
         }
         if(!curso){
-            throw new Error('Curso não encontrado.');
+            throw new ConflictError('Curso não encontrado.');
         }
 
         // Verifica se já existe um inscricao com o mesmo nome
@@ -58,16 +59,16 @@ export class InscricaoService {
         });
 
         if(exitingInscricao){
-            throw new Error('JEsta pessoa já está inscrita neste curso.');
+            throw new ConflictError('JEsta pessoa já está inscrita neste curso.');
         }
 
         return await prisma.inscricao.create({  data: { pessoaId, cursoId }});
     }
 
-    async atualizarInscricao(id: number, data: UpdateInscricaoDTO){
+    async updateInscricao(id: number, data: UpdateInscricaoDTO){
         const inscricao = await prisma.inscricao.findUnique({ where: { id }});
         if(!inscricao){
-            throw new Error(`Inscrição com ID ${id} não encontrada.`);
+            throw new ConflictError(`Inscrição com ID ${id} não encontrada.`);
         }
         return await prisma.inscricao.update({
             where: { id },
@@ -78,10 +79,10 @@ export class InscricaoService {
         });
     }
 
-    async deletarInscricao(id: number){
+    async deleteInscricao(id: number){
         const inscricao = await prisma.inscricao.findUnique({ where: { id }});
         if(!inscricao){
-            throw new Error(`Inscrição com ID ${id} não encontrada.`);
+            throw new NotFoundError(`Inscrição com ID ${id} não encontrada.`);
         }
         await prisma.inscricao.delete({ where: { id }});
     }
