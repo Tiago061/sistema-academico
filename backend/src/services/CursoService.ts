@@ -4,17 +4,13 @@ import { CreateCursoDTO, UpdateCursoDTO } from "../schemas/curso.schema";
 
 export class CursoService {
 
-    //Listagem e Filtros
-    async listarCursos(filtroNome?: string){
-        return await prisma.curso.findMany({
-            where: {
-                nome: filtroNome ? { contains: filtroNome, mode: 'insensitive' } : undefined, // Filtro opcional por nome
-            },
-            orderBy: {data_inicio: 'desc'}, // Ordena por data de início decrescente
-        });
+    
+    async getCursos(){
+        return await prisma.curso.findMany()
+        
     }
 
-    async obterCursoPorId(id: number){
+    async getCursoById(id: number){
         const curso = await prisma.curso.findUnique({
             where: { id },
             include: {
@@ -28,7 +24,7 @@ export class CursoService {
     }
     
 
-    async criarCurso(data: CreateCursoDTO){
+    async createCurso(data: CreateCursoDTO){
         // Verifica se já existe um curso com o mesmo nome
         const exitingCurso = await prisma.curso.findUnique({
             where: { nome: data.nome }
@@ -41,7 +37,7 @@ export class CursoService {
         return await prisma.curso.create({data});
     }
 
-    async atualizarCurso(id: number, data: UpdateCursoDTO){
+    async updateCurso(id: number, data: UpdateCursoDTO){
         // Verifica se o curso existe
         const existingCurso = await prisma.curso.findUnique({
             where: { id }
@@ -64,7 +60,7 @@ export class CursoService {
         });
     }
 
-    async deletarCurso(id: number){
+    async deleteCurso(id: number){
         // Validação de Negócio: Checar se existem inscrições ativas
         const inscricoes = await prisma.inscricao.count({
             where: { cursoId: id, ativo: true }
