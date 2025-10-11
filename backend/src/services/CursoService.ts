@@ -1,6 +1,7 @@
 import { registry } from "zod";
 import { prisma } from "../database/prisma";
 import { CreateCursoDTO, UpdateCursoDTO } from "../schemas/curso.schema";
+import { ConflictError, NotFoundError } from "../config/errors";
 
 export class CursoService {
 
@@ -18,7 +19,7 @@ export class CursoService {
             }
         });
         if(!curso){
-            throw new Error('Curso não encontrado.');
+            throw new NotFoundError('Curso não encontrado.');
         }
         return curso;
     }
@@ -31,7 +32,7 @@ export class CursoService {
         });
 
         if(exitingCurso){
-            throw new Error('Já existe um curso com esse nome.');
+            throw new ConflictError('Já existe um curso com esse nome.');
         }
 
         return await prisma.curso.create({data});
@@ -43,7 +44,7 @@ export class CursoService {
             where: { id }
         });
         if(!existingCurso){
-            throw new Error('Curso não encontrado.');
+            throw new ConflictError('Curso não encontrado.');
         }
         // Verifica se já existe outro curso com o mesmo nome
         if(data.nome && data.nome !== existingCurso.nome){
@@ -51,7 +52,7 @@ export class CursoService {
                 where: { nome: data.nome }
             });
             if(cursoWithSameName){
-                throw new Error('Já existe outro curso com esse nome.');
+                throw new ConflictError('Já existe outro curso com esse nome.');
             }
         }
         return await prisma.curso.update({
@@ -66,7 +67,7 @@ export class CursoService {
             where: { cursoId: id, ativo: true }
         });
         if(inscricoes > 0){
-            throw new Error('Não é possível deletar o curso, existem inscrições ativas.');
+            throw new ConflictError('Não é possível deletar o curso, existem inscrições ativas.');
         }
         return await prisma.curso.delete({
             where: { id }
