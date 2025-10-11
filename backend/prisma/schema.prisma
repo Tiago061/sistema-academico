@@ -1,0 +1,53 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Pessoa {
+    id        Int      @id @default(autoincrement())
+    nome      String
+    email     String   @unique
+    cpf       String   @unique
+    
+    inscricoes Inscricao[]
+    
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Curso {
+    id        Int      @id @default(autoincrement())
+    nome      String
+    descricao String?
+    carga_horaria Int
+    data_inicio DateTime
+    data_fim DateTime 
+
+    inscricoes Inscricao[]
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@unique([nome]) // Nome do curso deve ser único
+    
+}
+
+model Inscricao{
+    id        Int      @id @default(autoincrement())
+    pessoaId  Int
+    cursoId  Int
+    ativo    Boolean   @default(true)
+    nota     Decimal? // Nota final do curso, pode ser null se o curso ainda não foi concluído
+    
+    pessoa   Pessoa   @relation(fields: [pessoaId], references: [id])
+    curso    Curso    @relation(fields: [cursoId], references: [id])
+    
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@unique([pessoaId, cursoId]) // Uma pessoa não pode se inscrever no mesmo curso mais de uma vez
+}
+
