@@ -37,6 +37,32 @@ export class PessoaService {
         }
         return await prisma.pessoa.create({ data });
     }
+    async updatePessoa(id: number, data: Partial<CreatePessoaDTO>){
+        await this.checkPessoaExists(id);
+        // Verifica se já existe uma pessoa com o mesmo email ou cpf (excluindo a própria pessoa)
+        if(data.email || data.cpf){
+            const existingPessoa = await prisma.pessoa.findFirst({
+                where: {
+                    AND: [
+                        { id: { not: id } },
+                        { OR: [{ email: data.email }, { cpf: data.cpf }] }
+                    ]
+                }
+            });
+            if(existingPessoa){
+                if(existingPessoa.email === data.email){
+                    throw new ConflictError('Email já cadastrado.');
+                }
+                if(existingPessoa.cpf === data.cpf){
+                    throw new ConflictError('CPF já cadastrado.');
+                }
+            }
+        }
+        return await prisma.pessoa.update({
+            where: { id },
+            data
+        });
+    }
 
     async deletePessoa(id: number){
         await this.checkPessoaExists(id);
