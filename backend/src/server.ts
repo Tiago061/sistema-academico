@@ -1,5 +1,5 @@
 import app from './app';
-import { prisma } from './utils/prisma';
+import { prisma } from './database/prisma';
 
 
 const PORT = 3000
