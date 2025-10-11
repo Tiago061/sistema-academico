@@ -3,7 +3,7 @@ import { z } from "zod";
 // Para criar a inscrição, precisamos apenas dos IDs
 export const createInscricaoSchema = z.object({
     pessoaId: z.number().int().positive("ID da pessoa inválido."),
-    cursoId: z;number().int().positive("ID do curso inválido."),
+    cursoId: z.number().int().positive("ID do curso inválido."),
   
 })
 
