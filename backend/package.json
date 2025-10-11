@@ -6,6 +6,7 @@
     "dev": "npx prisma migrate dev --name init",
     "build": "tsc",
     "start": "node dist/server.js",
+    "test": "jest --runInBand --detectOpenHandles",
     "prisma:generate": "npx prisma generate",
     "prisma:migrate": "npx prisma migrate dev --name init",
     "seed": "ts-node src/database/seed.ts"
@@ -21,9 +22,12 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
+    "@types/jest": "^30.0.0",
     "@types/node": "^24.7.1",
+    "jest": "^30.2.0",
     "nodemon": "^3.1.10",
     "prisma": "^6.17.1",
+    "ts-jest": "^29.4.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   }
