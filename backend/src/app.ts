@@ -9,7 +9,7 @@ const app: Application = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))    
 
-app.use('/api/inscricoes', inscricaoRoutes);
+app.use('/inscricoes', inscricaoRoutes);
 
 
 app.get('/', async (_req: Request, res: Response) => {
