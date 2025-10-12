@@ -10,7 +10,7 @@ export class PessoaController {
         this.pessoaService = new PessoaService()
     }
 
-    // POST /inscricoes
+    // POST /pessoas
         async create(req: Request, res: Response, next: NextFunction): Promise<Response | void>{
             try {
                 const data = createPessoaSchema.parse(req.body)
@@ -22,7 +22,7 @@ export class PessoaController {
             }
         }
     
-        // GET /inscricoes?ativo=true&cursoId=1
+        // GET /pessoas?ativo=true&cursoId=1
         async getAll(req: Request, res: Response, next: NextFunction): Promise<Response | void>{
             try{
                 const pessoas = await this.pessoaService.getPessoas()
@@ -47,10 +47,14 @@ export class PessoaController {
             }
         }
     
-        // PUT /inscricoes/:id
+        // PUT /pessoas/:id
         async update(req: Request, res: Response, next: NextFunction): Promise<Response | void>{
             try{
                 const id = parseInt(req.params.id)
+                //retorna true se não for um número (ex: "abc", "", undefined, etc).
+                if(isNaN(id)){
+                    return res.status(400).json({error: "ID inválido"})
+                }
                 const data = updatePessoaSchema.parse(req.body)
     
                 const pessoaAtualizada = await this.pessoaService.updatePessoa(id, data)
@@ -61,10 +65,14 @@ export class PessoaController {
             }
         }
     
-        // DELETE /inscricoes/:id
+        // DELETE /pessoas/:id
         async delete(req: Request, res: Response, next: NextFunction): Promise<Response | void>{
             try{
                 const id = parseInt(req.params.id)
+                //retorna true se não for um número (ex: "abc", "", undefined, etc).
+                if(isNaN(id)){
+                    return res.status(400).json({error: "ID inválido"})
+                }
                 await this.pessoaService.deletePessoa(id)
                 return res.status(204).send()
             }catch (error){
