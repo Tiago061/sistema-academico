@@ -1,5 +1,5 @@
 import { createPessoaSchema, updatePessoaSchema } from "../schemas/pessoa.schema";
-import { PessoaService } from "../services/PessoaService.service";
+import { PessoaService } from "../services/pessoa.service";
 import { Request, Response, NextFunction } from "express";
 
 
