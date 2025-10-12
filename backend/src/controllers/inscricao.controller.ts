@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { createInscricaoSchema, updateInscricaoSchema } from "../schemas/inscricao.schema";
-import { InscricaoService } from "../services/InscricaoService.service";
+import { InscricaoService } from "../services/inscricao.service";
 
 
 
