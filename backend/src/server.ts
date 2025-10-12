@@ -2,7 +2,7 @@ import app from './app';
 import { prisma } from './database/prisma';
 import { config } from 'dotenv'
 
-config
+config()
 
 const PORT = process.env.PORT || 3000
 
@@ -17,6 +17,7 @@ async function server(){
         app.listen(PORT, () => {
              console.log(`Server us running on port ${PORT}`)
         })
+
     }catch(error){
         console.error('Failed to start server:', error)
         process.exit(1)
