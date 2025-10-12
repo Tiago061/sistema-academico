@@ -2,7 +2,7 @@ import { PessoaController } from "../../src/controllers/pessoa.controller";
 import { createPessoaSchema, updatePessoaSchema } from "../../src/schemas/pessoa.schema";
 import { PessoaService } from "../../src/services/pessoa.service";
 
-jest.mock("../../src/services/PessoaService.service");
+jest.mock("../../src/services/pessoa.service");
 jest.mock("../../src/schemas/pessoa.schema");
 
 describe("PessoaController", () => {
