@@ -23,7 +23,7 @@ export class InscricaoService {
                 pessoa: { select: { id: true, nome: true, email: true } },
                 curso: { select: { id: true, nome: true, descricao: true } }
              },
-            orderBy: { createdAt: 'desc' },
+            orderBy: { createdAt: 'asc' },
         });
         
     }
