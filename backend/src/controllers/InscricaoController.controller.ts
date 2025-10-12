@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { createInscricaoSchema, updateInscricaoSchema } from "../schemas/inscricao.schema";
 import { InscricaoService } from "../services/InscricaoService.service";
-import { registry } from "zod";
+
 
 
 
@@ -15,7 +15,7 @@ export class InscricaoController{
         this.inscricaoService = new InscricaoService()
     }
 
-    // POST /api/inscricoes
+    // POST /inscricoes
     async create(req: Request, res: Response, next: NextFunction): Promise<Response | void>{
         try {
             const data = createInscricaoSchema.parse(req.body)
@@ -27,7 +27,7 @@ export class InscricaoController{
         }
     }
 
-    // GET /api/inscricoes?ativo=true&cursoId=1
+    // GET /inscricoes?ativo=true&cursoId=1
     async getAll(req: Request, res: Response, next: NextFunction): Promise<Response | void>{
         try{
             const { ativo, cursoId, pessoaId} = req.query;
@@ -48,6 +48,10 @@ export class InscricaoController{
     async getById(req: Request, res: Response, next: NextFunction): Promise<Response | void>{
         try{
             const id = parseInt(req.params.id)
+            //retorna true se não for um número (ex: "abc", "", undefined, etc).
+                if(isNaN(id)){
+                    return res.status(400).json({error: "ID inválido"})
+                }
             const inscricoes = await this.inscricaoService.getInscricaoById(id)
             return res.json(inscricoes)
         } catch(error){
@@ -55,10 +59,14 @@ export class InscricaoController{
         }
     }
 
-    // PUT /api/inscricoes/:id
+    // PUT /inscricoes/:id
     async update(req: Request, res: Response, next: NextFunction): Promise<Response | void>{
         try{
             const id = parseInt(req.params.id)
+            //retorna true se não for um número (ex: "abc", "", undefined, etc).
+                if(isNaN(id)){
+                    return res.status(400).json({error: "ID inválido"})
+                }
             const data = updateInscricaoSchema.parse(req.body)
 
             const inscricaoAtualizada = await this.inscricaoService.updateInscricao(id, data)
@@ -69,10 +77,14 @@ export class InscricaoController{
         }
     }
 
-    // DELETE /api/inscricoes/:id
+    // DELETE /inscricoes/:id
     async delete(req: Request, res: Response, next: NextFunction): Promise<Response | void>{
         try{
             const id = parseInt(req.params.id)
+            //retorna true se não for um número (ex: "abc", "", undefined, etc).
+                if(isNaN(id)){
+                    return res.status(400).json({error: "ID inválido"})
+                }
             await this.inscricaoService.deleteInscricao(id)
             return res.status(204).send()
         }catch (error){
