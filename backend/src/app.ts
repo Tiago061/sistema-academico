@@ -1,6 +1,8 @@
 import  express, { type Application, type Request, type Response } from 'express'
 import { config } from 'dotenv'
 import inscricaoRoutes from './routes/inscricoes.routes';
+import pessoaRoutes from './routes/pessoas.routes';
+import cursoRoutes from './routes/cursos.routes';
 
 config()
 
@@ -10,8 +12,9 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))    
 
 
-app.use('/pessoas', inscricaoRoutes);
+app.use('/pessoas', pessoaRoutes);
 app.use('/inscricoes', inscricaoRoutes);
+app.use('/cursos', cursoRoutes);
 
 
 app.get('/', async (_req: Request, res: Response) => {
