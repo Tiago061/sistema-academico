@@ -36,6 +36,10 @@ export class PessoaController {
         async getById(req: Request, res: Response, next: NextFunction): Promise<Response | void>{
             try{
                 const id = parseInt(req.params.id)
+                //retorna true se não for um número (ex: "abc", "", undefined, etc).
+                if(isNaN(id)){
+                    return res.status(400).json({error: "ID inválido"})
+                }
                 const pessoas = await this.pessoaService.getPessoaById(id)
                 return res.json(pessoas)
             } catch(error){
