@@ -2,7 +2,7 @@ jest.mock('../../src/database/prisma', () => ({
   prisma: require('../__mocks__/prisma').prisma,
 }))
 
-import { PessoaService } from '../../src/services/PessoaService.service'
+import { PessoaService } from '../../src/services/pessoa.service'
 import { prisma } from '../__mocks__/prisma'
 import { ConflictError, NotFoundError } from '../../src/config/errors' 
 
