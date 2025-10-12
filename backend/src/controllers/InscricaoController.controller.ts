@@ -16,7 +16,7 @@ export class InscricaoController{
     }
 
     // POST /api/inscricoes
-    async create(req: Request, res: Response, next: NextFunction){
+    async create(req: Request, res: Response, next: NextFunction): Promise<Response | void>{
         try {
             const data = createInscricaoSchema.parse(req.body)
             const novaInscricao = await this.inscricaoService.createInscricao(data)
@@ -28,7 +28,7 @@ export class InscricaoController{
     }
 
     // GET /api/inscricoes?ativo=true&cursoId=1
-    async getAll(req: Request, res: Response, next: NextFunction){
+    async getAll(req: Request, res: Response, next: NextFunction): Promise<Response | void>{
         try{
             const { ativo, cursoId, pessoaId} = req.query;
 
@@ -45,7 +45,7 @@ export class InscricaoController{
         }
     }
     
-    async getById(req: Request, res: Response, next: NextFunction){
+    async getById(req: Request, res: Response, next: NextFunction): Promise<Response | void>{
         try{
             const id = parseInt(req.params.id)
             const inscricoes = await this.inscricaoService.getInscricaoById(id)
@@ -56,7 +56,7 @@ export class InscricaoController{
     }
 
     // PUT /api/inscricoes/:id
-    async update(req: Request, res: Response, next: NextFunction){
+    async update(req: Request, res: Response, next: NextFunction): Promise<Response | void>{
         try{
             const id = parseInt(req.params.id)
             const data = updateInscricaoSchema.parse(req.body)
@@ -70,7 +70,7 @@ export class InscricaoController{
     }
 
     // DELETE /api/inscricoes/:id
-    async delete(req: Request, res: Response, next: NextFunction){
+    async delete(req: Request, res: Response, next: NextFunction): Promise<Response | void>{
         try{
             const id = parseInt(req.params.id)
             await this.inscricaoService.deleteInscricao(id)
