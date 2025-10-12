@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { createCursoSchema, updateCursoSchema } from "../schemas/curso.schema";
-import { CursoService } from "../services/CursoService.service";
+import { CursoService } from "../services/curso.service";
 
 export class CursoController{
     private cursoService: CursoService;
