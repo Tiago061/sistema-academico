@@ -4,10 +4,10 @@ import { CursoController } from "../controllers/CursoController.controller"
 const router = Router()
 const cursosController = new CursoController
 
-router.post('/', cursosController.create)
-router.get('/', cursosController.getAll)
-router.get('/:id', cursosController.getById)
-router.put('/:id', cursosController.update)
-router.get('/:id', cursosController.delete)
+router.get('/', (req, res, next) => cursosController.getAll(req, res, next));
+router.get('/:id', (req, res, next) => cursosController.getById(req, res, next));
+router.post('/', (req, res, next) => cursosController.create(req, res, next));
+router.put('/:id', (req, res, next) => cursosController.update(req, res, next));
+router.delete('/:id', (req, res, next) => cursosController.delete(req, res, next));
 
 export default router
