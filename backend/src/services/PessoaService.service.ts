@@ -6,7 +6,7 @@ export class PessoaService {
 
     async getPessoas(){
         const pessoas = await prisma.pessoa.findMany({
-            orderBy: { createdAt: 'desc' },
+            orderBy: { createdAt: 'asc' },
         });
         return pessoas;
     }
