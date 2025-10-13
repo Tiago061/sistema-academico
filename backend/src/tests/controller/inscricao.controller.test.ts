@@ -1,6 +1,7 @@
-import { InscricaoController } from "../../src/controllers/inscricao.controller";
-import { InscricaoService } from "../../src/services/inscricao.service";
+
 import { Request, Response, NextFunction } from "express";
+import { InscricaoController } from "../../controllers/inscricao.controller";
+import { InscricaoService } from "../../services/inscricao.service";
 
 jest.mock("../../src/services/inscricao.service");
 

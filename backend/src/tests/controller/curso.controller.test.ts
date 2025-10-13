@@ -1,6 +1,6 @@
-import { PessoaController } from "../../src/controllers/pessoa.controller";
-import { createPessoaSchema, updatePessoaSchema } from "../../src/schemas/pessoa.schema";
-import { PessoaService } from "../../src/services/pessoa.service";
+import { PessoaController } from "../../controllers/pessoa.controller";
+import { createPessoaSchema, updatePessoaSchema } from "../../schemas/pessoa.schema";
+import { PessoaService } from "../../services/pessoa.service";
 
 jest.mock("../../src/services/pessoa.service");
 jest.mock("../../src/schemas/pessoa.schema");
