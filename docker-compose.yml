@@ -1,43 +1,43 @@
-version: '3.8'
+version: "3.9"
 
 services:
-
-  # Serviço de Banco de Dados PostgreSQL (db)
   db:
-    image: postgres:14-alpine
+    image: postgres:15-alpine
     container_name: sistemaacademico_db
-    restart: always
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-    volumes:
-      # Armazena os dados do banco em um volume local para persistência
-      - postgres_data:/var/lib/postgresql/data
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: SistemaAcademico
     ports:
       - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
 
-  # Serviço da API Node.js/Prisma (backend)
   backend:
     build:
-      # Define o contexto (pasta onde está o Dockerfile)
       context: ./backend
       dockerfile: Dockerfile
     container_name: sistemaacademico_backend
-    restart: always
-    ports:
-      - "3000:3000"
-    environment:
-      # Conecta a API ao serviço 'db' usando o nome do serviço
-      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public
-      NODE_ENV: production
-    # Garante que o banco de dados inicie antes da API
+    env_file:
+      - ./backend/.env
     depends_on:
       - db
-    # Aplica as migrações do Prisma e só então inicia o servidor
-    command: sh -c "npx prisma migrate deploy && node dist/server.js"
+    ports:
+      - "3000:3000"
 
-# Definição do Volume (Nível Superior)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+     
+      args:
+       
+        NEXT_PUBLIC_API_URL: http://backend:3000
+    container_name: sistemaacademico_frontend
+    ports:
+      - "8080:80" 
+    depends_on:
+      - backend
+
 volumes:
-  postgres_data:
-    driver: local
+  db_data:
