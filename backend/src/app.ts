@@ -1,5 +1,6 @@
 import  express, { type Application, type Request, type Response } from 'express'
 import { config } from 'dotenv'
+import cors from 'cors'
 import inscricaoRoutes from './routes/inscricoes.routes';
 import pessoaRoutes from './routes/pessoas.routes';
 import cursoRoutes from './routes/cursos.routes';
@@ -8,6 +9,7 @@ config()
 
 const app: Application = express()
 
+app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))    
 
