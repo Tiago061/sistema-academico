@@ -15,16 +15,14 @@ import { PageHeader } from "@/components/page-header"
 import { validateDateRange } from "@/lib/utils/validation"
 import { useToast } from "@/hooks/use-toast"
 
-// Definição de tipo temporária para resolver o erro de compilação
-// O ideal é importar este tipo do data-context ou do seu esquema Prisma.
-// Ajuste os tipos 'number' e 'string' conforme o seu schema de Course.
+
 type CourseType = {
   id: number;
-  name: string;
-  workload: number;
-  description: string;
-  startDate: string;
-  endDate: string;
+  nome: string;
+  carga_horaria: number;
+  descricao: string;
+  data_inicio: string;
+  data_fim: string;
 } | undefined;
 
 
