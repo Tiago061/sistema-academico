@@ -23,21 +23,15 @@ export default function InscricoesPage() {
   const [deleting, setDeleting] = useState(false)
   const { toast } = useToast()
 
-  const getPersonName = (personId: number) => {
-   
-    return (people.find((p: any) => p.id === personId) as any)?.nome || "Desconhecido"
-  }
+ const getPersonName = (enrollment: any) => enrollment.pessoa?.nome ?? "Desconhecido"
 
-  const getCourseName = (courseId: number) => {
-    
-    return (courses.find((c: any) => c.id === courseId) as any)?.nome || "Desconhecido"
-  }
+ const getCourseName = (enrollment: any) => enrollment.curso?.nome ?? "Desconhecido"
 
   
   const filteredEnrollments = (enrollments as any[]).filter((enrollment) => {
    
-    const personName = getPersonName((enrollment as any).pessoaId).toLowerCase()
-    const courseName = getCourseName((enrollment as any).cursoId).toLowerCase()
+    const personName = getPersonName((enrollment)).toLowerCase()
+    const courseName = getCourseName((enrollment)).toLowerCase()
     const search = searchTerm.toLowerCase()
     return personName.includes(search) || courseName.includes(search)
   })
@@ -142,12 +136,10 @@ export default function InscricoesPage() {
                         </TableCell>
                       </TableRow>
                     ) : (
-                      // CORREÇÃO FINAL: Usa o array já corrigido e mapeia ele como 'any' para evitar erros de tipagem
                       (filteredEnrollments as any[]).map((enrollment) => (
                         <TableRow key={enrollment.id}>
-                          {/* Propriedades corrigidas para 'pessoaId' e 'cursoId' */}
-                          <TableCell className="font-medium">{getPersonName(enrollment.pessoaId)}</TableCell>
-                          <TableCell>{getCourseName(enrollment.cursoId)}</TableCell>
+                          <TableCell className="font-medium">{getPersonName(enrollment)}</TableCell>
+                          <TableCell>{getCourseName(enrollment)}</TableCell>
                           <TableCell>{enrollment.nota ? enrollment.nota.toFixed(2) : "-"}</TableCell>
                           <TableCell>
                             <div className="flex items-center gap-2">

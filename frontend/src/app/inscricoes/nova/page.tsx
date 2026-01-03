@@ -103,7 +103,7 @@ export default function NovaInscricaoPage() {
                             value={(person as any).id.toString()}
                           >
                            
-                            {(person as any).name}
+                            {(person as any).nome}
                           </SelectItem>
                         ))
                       )}

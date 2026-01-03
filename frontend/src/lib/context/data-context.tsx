@@ -39,15 +39,21 @@ export function DataProvider({ children }: { children: ReactNode }) {
       setLoading(true)
       setError(null)
 
-      console.log("[v0] Fetching data from API...")
+      console.log(" Fetching data from API...")
 
-      const [peopleData, coursesData, enrollmentsData] = await Promise.all([
+      const [peopleData, coursesData, enrollmentsRaw] = await Promise.all([
         pessoasAPI.getAll(),
         cursosAPI.getAll(),
         inscricoesAPI.getAll(),
       ])
 
-      console.log("[v0] Data loaded successfully:", {
+      const enrollmentsData = enrollmentsRaw.map((e: any) => ({
+        ...e,
+        pessoaId: e.pessoaId ?? e.pessoa_id,
+        cursoId: e.cursoId ?? e.curso_id,
+      }))
+
+      console.log(" Data loaded successfully:", {
         people: peopleData.length,
         courses: coursesData.length,
         enrollments: enrollmentsData.length,
@@ -57,14 +63,14 @@ export function DataProvider({ children }: { children: ReactNode }) {
       setCourses(coursesData)
       setEnrollments(enrollmentsData)
     } catch (error) {
-      console.error("[v0] Error loading data:", error)
+      console.error("Error loading data:", error)
 
       if (error instanceof APIError) {
-        console.error("[v0] API Error:", error.message, error.statusCode)
+        console.error(" API Error:", error.message, error.statusCode)
         setError(error.message)
 
         if (error.statusCode === 0) {
-          console.warn("[v0] Using empty data due to connection error")
+          console.warn(" Using empty data due to connection error")
           setPeople([])
           setCourses([])
           setEnrollments([])

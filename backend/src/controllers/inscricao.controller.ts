@@ -15,7 +15,7 @@ export class InscricaoController{
         this.inscricaoService = new InscricaoService()
     }
 
-    // POST /inscricoes
+    
     async create(req: Request, res: Response, next: NextFunction): Promise<Response | void>{
         try {
             const data = createInscricaoSchema.parse(req.body)
