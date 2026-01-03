@@ -33,7 +33,7 @@ export default function EditarCursoPage() {
   const params = useParams() as { id: string | string[] } 
   const { toast } = useToast()
   const [formData, setFormData] = useState({
-    name: "",
+    nome: "",
     carga_horaria: "",
     descricao: "",
     data_inicio: "",
@@ -50,7 +50,7 @@ export default function EditarCursoPage() {
     if (course) {
       setFormData({
     
-        name: course.nome,
+        nome: course.nome,
         carga_horaria: course.carga_horaria.toString(),
         descricao: course.descricao,
         data_inicio: course.data_inicio,
@@ -65,8 +65,8 @@ export default function EditarCursoPage() {
     e.preventDefault()
     const newErrors: Record<string, string> = {}
 
-    if (!formData.name.trim()) {
-      newErrors.name = "Nome é obrigatório"
+    if (!formData.nome.trim()) {
+      newErrors.nome = "nome é obrigatório"
     }
 
     if (!formData.carga_horaria) {
@@ -100,7 +100,7 @@ export default function EditarCursoPage() {
     const courseId = Array.isArray(params.id) ? params.id[0] : params.id
     
     updateCourse(Number(courseId), {
-      name: formData.name,
+      nome: formData.nome,
       carga_horaria: Number.parseInt(formData.carga_horaria),
       descricao: formData.descricao,
       data_inicio: formData.data_inicio,
@@ -134,15 +134,15 @@ export default function EditarCursoPage() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <Label htmlFor="name">Nome</Label>
+                    <Label htmlFor="nome">nome</Label>
                     <Input
-                      id="name"
-                      placeholder="Nome do curso"
-                      value={formData.name}
+                      id="nome"
+                      placeholder="nome do curso"
+                      value={formData.nome}
                       onChange={handleChange}
-                      className={errors.name ? "border-destructive" : ""}
+                      className={errors.nome ? "border-destructive" : ""}
                     />
-                    {errors.name && <p className="text-sm text-destructive">{errors.name}</p>}
+                    {errors.nome && <p className="text-sm text-destructive">{errors.nome}</p>}
                   </div>
 
                   <div className="space-y-2">
