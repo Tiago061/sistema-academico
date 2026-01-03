@@ -27,4 +27,4 @@ COPY --from=build /app/public ./public
 
 EXPOSE 80
 
-CMD next start -p 80
+CMD ["npm", "start", "--", "-p", "80"]
