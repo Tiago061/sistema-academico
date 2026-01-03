@@ -20,11 +20,11 @@ export default function NovoCursoPage() {
   const router = useRouter()
   const { toast } = useToast()
   const [formData, setFormData] = useState({
-    name: "",
-    workload: "",
-    description: "",
-    startDate: "",
-    endDate: "",
+    nome: "",
+    carga_horaria: "",
+    descricao: "",
+    data_inicio: "",
+    data_fim: "",
   })
   const [errors, setErrors] = useState<Record<string, string>>({})
 
@@ -37,26 +37,26 @@ export default function NovoCursoPage() {
     e.preventDefault()
     const newErrors: Record<string, string> = {}
 
-    if (!formData.name.trim()) {
-      newErrors.name = "Nome é obrigatório"
+    if (!formData.nome.trim()) {
+      newErrors.nome = "Nome é obrigatório"
     }
 
-    if (!formData.workload) {
-      newErrors.workload = "Carga horária é obrigatória"
-    } else if (Number.parseInt(formData.workload) <= 0) {
-      newErrors.workload = "Carga horária deve ser maior que zero"
+    if (!formData.carga_horaria) {
+      newErrors.carga_horaria = "Carga horária é obrigatória"
+    } else if (Number.parseInt(formData.carga_horaria) <= 0) {
+      newErrors.carga_horaria = "Carga horária deve ser maior que zero"
     }
 
-    if (!formData.startDate) {
-      newErrors.startDate = "Data de início é obrigatória"
+    if (!formData.data_inicio) {
+      newErrors.data_inicio = "Data de início é obrigatória"
     }
 
-    if (!formData.endDate) {
-      newErrors.endDate = "Data de fim é obrigatória"
+    if (!formData.data_fim) {
+      newErrors.data_fim = "Data de fim é obrigatória"
     }
 
-    if (formData.startDate && formData.endDate && !validateDateRange(formData.startDate, formData.endDate)) {
-      newErrors.endDate = "Data de fim deve ser posterior à data de início"
+    if (formData.data_inicio && formData.data_fim && !validateDateRange(formData.data_inicio, formData.data_fim)) {
+      newErrors.data_fim = "Data de fim deve ser posterior à data de início"
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -69,15 +69,13 @@ export default function NovoCursoPage() {
       return
     }
 
-    // CORREÇÃO: Aplicamos 'as any' para contornar a incompatibilidade de tipagem
-    // com o 'CreateCursoDTO' que o Docker está reclamando.
     addCourse({
-      name: formData.name,
-      workload: Number.parseInt(formData.workload),
-      description: formData.description,
-      startDate: formData.startDate,
-      endDate: formData.endDate,
-    } as any) // <--- O ajuste está aqui
+      nome: formData.nome,
+      carga_horaria: Number.parseInt(formData.carga_horaria),
+      descricao: formData.descricao,
+      data_inicio: formData.data_inicio,
+      data_fim: formData.data_fim,
+    } as any) 
 
     toast({
       title: "Curso cadastrado",
@@ -101,37 +99,37 @@ export default function NovoCursoPage() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <Label htmlFor="name">Nome</Label>
+                    <Label htmlFor="nome">Nome</Label>
                     <Input
-                      id="name"
+                      id="nome"
                       placeholder="Nome do curso"
-                      value={formData.name}
+                      value={formData.nome}
                       onChange={handleChange}
-                      className={errors.name ? "border-destructive" : ""}
+                      className={errors.nome ? "border-destructive" : ""}
                     />
-                    {errors.name && <p className="text-sm text-destructive">{errors.name}</p>}
+                    {errors.nome && <p className="text-sm text-destructive">{errors.nome}</p>}
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="workload">Carga Horária</Label>
+                    <Label htmlFor="carga_horaria">Carga Horária</Label>
                     <Input
-                      id="workload"
+                      id="carga_horaria"
                       type="number"
                       placeholder="32"
-                      value={formData.workload}
+                      value={formData.carga_horaria}
                       onChange={handleChange}
-                      className={errors.workload ? "border-destructive" : ""}
+                      className={errors.carga_horaria ? "border-destructive" : ""}
                     />
-                    {errors.workload && <p className="text-sm text-destructive">{errors.workload}</p>}
+                    {errors.carga_horaria && <p className="text-sm text-destructive">{errors.carga_horaria}</p>}
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="description">Descrição</Label>
+                  <Label htmlFor="descricao">Descrição</Label>
                   <Textarea
-                    id="description"
+                    id="descricao"
                     placeholder="Descrição do curso..."
-                    value={formData.description}
+                    value={formData.descricao}
                     onChange={handleChange}
                     rows={4}
                   />
@@ -139,27 +137,27 @@ export default function NovoCursoPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <Label htmlFor="startDate">Data Início</Label>
+                    <Label htmlFor="data_inicio">Data Início</Label>
                     <Input
-                      id="startDate"
+                      id="data_inicio"
                       type="date"
-                      value={formData.startDate}
+                      value={formData.data_inicio}
                       onChange={handleChange}
-                      className={errors.startDate ? "border-destructive" : ""}
+                      className={errors.data_inicio ? "border-destructive" : ""}
                     />
-                    {errors.startDate && <p className="text-sm text-destructive">{errors.startDate}</p>}
+                    {errors.data_inicio && <p className="text-sm text-destructive">{errors.data_inicio}</p>}
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="endDate">Data Fim</Label>
+                    <Label htmlFor="data_fim">Data Fim</Label>
                     <Input
-                      id="endDate"
+                      id="data_fim"
                       type="date"
-                      value={formData.endDate}
+                      value={formData.data_fim}
                       onChange={handleChange}
-                      className={errors.endDate ? "border-destructive" : ""}
+                      className={errors.data_fim ? "border-destructive" : ""}
                     />
-                    {errors.endDate && <p className="text-sm text-destructive">{errors.endDate}</p>}
+                    {errors.data_fim && <p className="text-sm text-destructive">{errors.data_fim}</p>}
                   </div>
                 </div>
 

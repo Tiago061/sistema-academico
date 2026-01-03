@@ -38,7 +38,7 @@ export default function EditarPessoaPage() {
         cpf: person.cpf,
       })
     } else if (!people.length) {
-      // Still loading
+      
     } else {
       router.push("/pessoas")
     }

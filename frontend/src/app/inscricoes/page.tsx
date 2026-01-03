@@ -24,18 +24,18 @@ export default function InscricoesPage() {
   const { toast } = useToast()
 
   const getPersonName = (personId: number) => {
-    // CORREÇÃO: Usamos 'as any' para acessar a propriedade 'nome' que não está tipada
+   
     return (people.find((p: any) => p.id === personId) as any)?.nome || "Desconhecido"
   }
 
   const getCourseName = (courseId: number) => {
-    // CORREÇÃO: Usamos 'as any' para acessar a propriedade 'nome' que não está tipada
+    
     return (courses.find((c: any) => c.id === courseId) as any)?.nome || "Desconhecido"
   }
 
-  // CORREÇÃO: Usamos 'as any[]' para contornar a tipagem inconsistente de enrollments
+  
   const filteredEnrollments = (enrollments as any[]).filter((enrollment) => {
-    // CORREÇÃO: Usamos 'as any' para acessar as propriedades do enrollment
+   
     const personName = getPersonName((enrollment as any).pessoaId).toLowerCase()
     const courseName = getCourseName((enrollment as any).cursoId).toLowerCase()
     const search = searchTerm.toLowerCase()
@@ -68,7 +68,7 @@ export default function InscricoesPage() {
 
   const handleStatusChange = async (enrollmentId: number, newStatus: boolean) => {
     try {
-      await updateEnrollment(enrollmentId, { ativo: newStatus } as any) // 'as any' aqui por segurança
+      await updateEnrollment(enrollmentId, { ativo: newStatus } as any) 
       toast({
         title: "Status atualizado",
         description: `Inscrição ${newStatus ? "ativada" : "desativada"} com sucesso.`,

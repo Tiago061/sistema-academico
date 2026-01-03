@@ -11,7 +11,6 @@ import { Suspense } from "react"
 export const metadata: Metadata = {
   title: "Sistema Acadêmico",
   description: "Sistema de gerenciamento acadêmico",
-  generator: "v0.app",
 }
 
 export default function RootLayout({

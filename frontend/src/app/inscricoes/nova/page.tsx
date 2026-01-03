@@ -18,8 +18,8 @@ export default function NovaInscricaoPage() {
   const router = useRouter()
   const { toast } = useToast()
   const [formData, setFormData] = useState({
-    personId: "",
-    courseId: "",
+    pessoaId: "",
+    cursoId: "",
     status: "ativo" as "ativo" | "inativo",
   })
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -28,16 +28,16 @@ export default function NovaInscricaoPage() {
     e.preventDefault()
     const newErrors: Record<string, string> = {}
 
-    if (!formData.personId) {
-      newErrors.personId = "Selecione uma pessoa"
+    if (!formData.pessoaId) {
+      newErrors.pessoaId = "Selecione uma pessoa"
     }
 
-    if (!formData.courseId) {
-      newErrors.courseId = "Selecione um curso"
+    if (!formData.cursoId) {
+      newErrors.cursoId = "Selecione um curso"
     }
 
  
-    const isDuplicate = (enrollments as any[]).some((e) => e.personId === formData.personId && e.courseId === formData.courseId)
+    const isDuplicate = (enrollments as any[]).some((e) => e.pessoaId === formData.pessoaId && e.cursoId === formData.cursoId)
 
     if (isDuplicate) {
       newErrors.general = "Esta pessoa já está inscrita neste curso"
@@ -55,8 +55,8 @@ export default function NovaInscricaoPage() {
 
    
     addEnrollment({
-      personId: formData.personId,
-      courseId: formData.courseId,
+      pessoaId: formData.pessoaId,
+      cursoId: formData.cursoId,
       status: formData.status,
     } as any)
 
@@ -81,15 +81,15 @@ export default function NovaInscricaoPage() {
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
-                  <Label htmlFor="personId">Pessoa</Label>
+                  <Label htmlFor="pessoaId">Pessoa</Label>
                   <Select
-                    value={formData.personId}
+                    value={formData.pessoaId}
                     onValueChange={(value: any) => {
-                      setFormData({ ...formData, personId: value })
-                      setErrors({ ...errors, personId: "" })
+                      setFormData({ ...formData, pessoaId: value })
+                      setErrors({ ...errors, pessoaId: "" })
                     }}
                   >
-                    <SelectTrigger className={errors.personId ? "border-destructive" : ""}>
+                    <SelectTrigger className={errors.pessoaId ? "border-destructive" : ""}>
                       <SelectValue placeholder="Selecione uma pessoa" />
                     </SelectTrigger>
                     <SelectContent>
@@ -109,19 +109,19 @@ export default function NovaInscricaoPage() {
                       )}
                     </SelectContent>
                   </Select>
-                  {errors.personId && <p className="text-sm text-destructive">{errors.personId}</p>}
+                  {errors.pessoaId && <p className="text-sm text-destructive">{errors.pessoaId}</p>}
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="courseId">Curso</Label>
+                  <Label htmlFor="cursoId">Curso</Label>
                   <Select
-                    value={formData.courseId}
+                    value={formData.cursoId}
                     onValueChange={(value) => {
-                      setFormData({ ...formData, courseId: value })
-                      setErrors({ ...errors, courseId: "" })
+                      setFormData({ ...formData, cursoId: value })
+                      setErrors({ ...errors, cursoId: "" })
                     }}
                   >
-                    <SelectTrigger className={errors.courseId ? "border-destructive" : ""}>
+                    <SelectTrigger className={errors.cursoId ? "border-destructive" : ""}>
                       <SelectValue placeholder="Selecione um curso" />
                     </SelectTrigger>
                     <SelectContent>
@@ -140,7 +140,7 @@ export default function NovaInscricaoPage() {
                       )}
                     </SelectContent>
                   </Select>
-                  {errors.courseId && <p className="text-sm text-destructive">{errors.courseId}</p>}
+                  {errors.cursoId && <p className="text-sm text-destructive">{errors.cursoId}</p>}
                 </div>
 
                 <div className="space-y-2">
